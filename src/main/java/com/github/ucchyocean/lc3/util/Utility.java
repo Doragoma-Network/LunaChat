@@ -15,6 +15,7 @@ import java.util.Locale;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 
 /**
@@ -23,6 +24,15 @@ import java.util.zip.ZipEntry;
  * @author ucchy
  */
 public class Utility {
+
+    private static final Pattern PATTERN_COLOR_ALT = Pattern.compile("&([0-9a-fk-orA-FK-OR])");
+    private static final Pattern PATTERN_WEB_COLOR_6 = Pattern.compile("#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])");
+    private static final Pattern PATTERN_WEB_COLOR_3 = Pattern.compile("#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])");
+    private static final Pattern PATTERN_SECTION_CODE = Pattern.compile("§([0-9a-fk-orxA-FK-ORX])");
+    private static final Pattern PATTERN_ALT_CODE = Pattern.compile("&([0-9a-fk-orxA-FK-ORX])");
+    private static final Pattern PATTERN_HEX_6 = Pattern.compile("#[0-9a-fA-F]{6}");
+    private static final Pattern PATTERN_HEX_3 = Pattern.compile("#[0-9a-fA-F]{3}");
+    public static final Pattern PATTERN_HALFWIDTH_KATAKANA = Pattern.compile("[ \\uFF61-\\uFF9F]+");
 
     /**
      * jarファイルの中に格納されているファイルを、jarファイルの外にコピーするメソッド
@@ -89,7 +99,7 @@ public class Utility {
      */
     public static String replaceColorCode(String source) {
         if (source == null) return null;
-        return replaceWebColorCode(source).replaceAll("&([0-9a-fk-orA-FK-OR])", "§$1");
+        return PATTERN_COLOR_ALT.matcher(replaceWebColorCode(source)).replaceAll("§$1");
     }
 
     /**
@@ -99,7 +109,8 @@ public class Utility {
      * @return 置き換え後の文字列
      */
     private static String replaceWebColorCode(String source) {
-        return source.replaceAll("#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])", "§x§$1§$2§$3§$4§$5§$6").replaceAll("#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])", "§x§$1§$1§$2§$2§$3§$3");
+        String result = PATTERN_WEB_COLOR_6.matcher(source).replaceAll("§x§$1§$2§$3§$4§$5§$6");
+        return PATTERN_WEB_COLOR_3.matcher(result).replaceAll("§x§$1§$1§$2§$2§$3§$3");
     }
 
     /**
@@ -110,7 +121,7 @@ public class Utility {
      */
     public static String stripColorCode(String source) {
         if (source == null) return null;
-        return stripAltColorCode(source).replaceAll("§([0-9a-fk-orxA-FK-ORX])", "");
+        return PATTERN_SECTION_CODE.matcher(stripAltColorCode(source)).replaceAll("");
     }
 
     /**
@@ -121,8 +132,9 @@ public class Utility {
      */
     public static String stripAltColorCode(String source) {
         if (source == null) return null;
-        source = source.replaceAll("#[0-9a-fA-F]{6}", "").replaceAll("#[0-9a-fA-F]{3}", "");
-        return source.replaceAll("&([0-9a-fk-orxA-FK-ORX])", "");
+        source = PATTERN_HEX_6.matcher(source).replaceAll("");
+        source = PATTERN_HEX_3.matcher(source).replaceAll("");
+        return PATTERN_ALT_CODE.matcher(source).replaceAll("");
     }
 
     /**
@@ -133,7 +145,7 @@ public class Utility {
      */
     public static boolean isColorCode(String code) {
         if (code == null) return false;
-        return code.matches("§[0-9a-fk-orxA-FK-ORX]");
+        return PATTERN_SECTION_CODE.matcher(code).matches();
     }
 
     /**
@@ -142,9 +154,11 @@ public class Utility {
      * @param color カラーコード候補
      * @return カラーコード候補かどうか
      */
+    private static final Pattern PATTERN_IS_ALT_COLOR = Pattern.compile("(&[0-9a-fk-orA-FK-OR]|#[0-9a-fA-F]{3}|#[0-9a-fA-F]{6})");
+
     public static boolean isAltColorCode(String code) {
         if (code == null) return false;
-        return code.matches("(&[0-9a-fk-orA-FK-OR]|#[0-9a-fA-F]{3}|#[0-9a-fA-F]{6})");
+        return PATTERN_IS_ALT_COLOR.matcher(code).matches();
     }
 
     /**

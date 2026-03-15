@@ -370,7 +370,7 @@ public class BungeeEventListener implements Listener {
 
             if (!skipJapanize &&
                     (kanaTemp.getBytes(StandardCharsets.UTF_8).length > kanaTemp.length() ||
-                            kanaTemp.matches("[ \\uFF61-\\uFF9F]+"))) {
+                            Utility.PATTERN_HALFWIDTH_KATAKANA.matcher(kanaTemp).matches())) {
                 skipJapanize = true;
             }
 

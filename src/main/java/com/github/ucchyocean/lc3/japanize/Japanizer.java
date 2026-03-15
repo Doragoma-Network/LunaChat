@@ -5,6 +5,8 @@
  */
 package com.github.ucchyocean.lc3.japanize;
 
+import com.github.ucchyocean.lc3.util.Utility;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,7 +78,7 @@ public class Japanizer {
      */
     private static boolean isNeedToJapanize(String org) {
         return (org.getBytes().length == org.length()
-                && !org.matches("[ \\uFF61-\\uFF9F]+"));
+                && !Utility.PATTERN_HALFWIDTH_KATAKANA.matcher(org).matches());
     }
 
     /**

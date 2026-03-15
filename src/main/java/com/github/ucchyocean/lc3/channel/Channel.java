@@ -291,9 +291,9 @@ public abstract class Channel {
      */
     private static Map<String, Long> getStringLongMap(Map<ChannelMember, Long> org) {
 
-        HashMap<String, Long> result = new HashMap<String, Long>();
-        for (ChannelMember cp : org.keySet()) {
-            if (cp != null) result.put(cp.toString(), org.get(cp));
+        HashMap<String, Long> result = new HashMap<>();
+        for (Map.Entry<ChannelMember, Long> entry : org.entrySet()) {
+            if (entry.getKey() != null) result.put(entry.getKey().toString(), entry.getValue());
         }
         return result;
     }
@@ -359,11 +359,11 @@ public abstract class Channel {
     private static Map<ChannelMember, Long> castToChannelMemberLongMap(Object obj) {
 
         Map<String, Long> entries = castToStringLongMap(obj);
-        HashMap<ChannelMember, Long> map = new HashMap<ChannelMember, Long>();
+        HashMap<ChannelMember, Long> map = new HashMap<>();
 
-        for (String key : entries.keySet()) {
-            ChannelMember cp = ChannelMember.getChannelMember(key);
-            map.put(cp, entries.get(key));
+        for (Map.Entry<String, Long> entry : entries.entrySet()) {
+            ChannelMember cp = ChannelMember.getChannelMember(entry.getKey());
+            map.put(cp, entry.getValue());
         }
 
         return map;
@@ -518,7 +518,7 @@ public abstract class Channel {
         // 2byteコードを含むか、半角カタカナのみなら、Japanize変換は行わない
         String kanaTemp = Utility.stripColorCode(maskedMessage);
 
-        if (!skipJapanize && (kanaTemp.getBytes(StandardCharsets.UTF_8).length > kanaTemp.length() || kanaTemp.matches("[ \\uFF61-\\uFF9F]+"))) {
+        if (!skipJapanize && (kanaTemp.getBytes(StandardCharsets.UTF_8).length > kanaTemp.length() || Utility.PATTERN_HALFWIDTH_KATAKANA.matcher(kanaTemp).matches())) {
             skipJapanize = true;
         }
 
@@ -762,8 +762,8 @@ public abstract class Channel {
             api.removeDefaultChannel(player.getName());
         }
 
-        // 実際にメンバーから削除する
-        members.remove(player);
+        // メンバー更新（addMemberと同様にイベント結果のリストを反映）
+        members = after;
 
         if (!isPersonalChat()) {
             player.sendMessage(Messages.quitMessage(getColorCode(), getName(), player.getName()));
@@ -992,50 +992,52 @@ public abstract class Channel {
 
         long now = System.currentTimeMillis();
 
-        // 期限付きBANのチェック
-        for (ChannelMember cp : getBanExpires().keySet()) {
-            if (getBanExpires().get(cp) <= now) {
+        // 期限付きBANのチェック - 先に期限切れを収集してからループ外で削除
+        List<ChannelMember> expiredBans = new ArrayList<>();
+        for (Map.Entry<ChannelMember, Long> entry : getBanExpires().entrySet()) {
+            if (entry.getValue() <= now) {
+                expiredBans.add(entry.getKey());
+            }
+        }
+        for (ChannelMember cp : expiredBans) {
+            getBanExpires().remove(cp);
+            if (getBanned().contains(cp)) {
+                getBanned().remove(cp);
+                save();
 
-                // 期限マップから削除し、BANを解除
-                getBanExpires().remove(cp);
-                if (getBanned().contains(cp)) {
-                    getBanned().remove(cp);
-                    save();
+                BaseComponent[] msg = Messages.expiredBanMessage(getColorCode(), getName(), cp.getName());
+                if (msg.length > 0) {
+                    sendSystemMessage(msg, true, "system");
+                }
 
-                    // メッセージ通知を流す
-                    BaseComponent[] msg = Messages.expiredBanMessage(getColorCode(), getName(), cp.getName());
-                    if (msg.length > 0) {
-                        sendSystemMessage(msg, true, "system");
-                    }
-
-                    String pardonedMsg = Messages.cmdmsgPardoned(getName());
-                    if (cp.isOnline() && !pardonedMsg.isEmpty()) {
-                        cp.sendMessage(pardonedMsg);
-                    }
+                String pardonedMsg = Messages.cmdmsgPardoned(getName());
+                if (cp.isOnline() && !pardonedMsg.isEmpty()) {
+                    cp.sendMessage(pardonedMsg);
                 }
             }
         }
 
         // 期限付きMuteのチェック
-        for (ChannelMember cp : getMuteExpires().keySet()) {
-            if (getMuteExpires().get(cp) <= now) {
+        List<ChannelMember> expiredMutes = new ArrayList<>();
+        for (Map.Entry<ChannelMember, Long> entry : getMuteExpires().entrySet()) {
+            if (entry.getValue() <= now) {
+                expiredMutes.add(entry.getKey());
+            }
+        }
+        for (ChannelMember cp : expiredMutes) {
+            getMuteExpires().remove(cp);
+            if (getMuted().contains(cp)) {
+                getMuted().remove(cp);
+                save();
 
-                // 期限マップから削除し、Muteを解除
-                getMuteExpires().remove(cp);
-                if (getMuted().contains(cp)) {
-                    getMuted().remove(cp);
-                    save();
+                BaseComponent[] msg = Messages.expiredMuteMessage(getColorCode(), getName(), cp.getName());
+                if (msg.length > 0) {
+                    sendSystemMessage(msg, true, "system");
+                }
 
-                    // メッセージ通知を流す
-                    BaseComponent[] msg = Messages.expiredMuteMessage(getColorCode(), getName(), cp.getName());
-                    if (msg.length > 0) {
-                        sendSystemMessage(msg, true, "system");
-                    }
-
-                    String unmutedMsg = Messages.cmdmsgUnmuted(getName());
-                    if (cp.isOnline() && !unmutedMsg.isEmpty()) {
-                        cp.sendMessage(unmutedMsg);
-                    }
+                String unmutedMsg = Messages.cmdmsgUnmuted(getName());
+                if (cp.isOnline() && !unmutedMsg.isEmpty()) {
+                    cp.sendMessage(unmutedMsg);
                 }
             }
         }

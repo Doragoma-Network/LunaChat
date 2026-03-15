@@ -75,7 +75,7 @@ public class McMMOBridge implements Listener {
         String kanaTemp = Utility.stripColorCode(message);
         if (!skipJapanize &&
                 (kanaTemp.getBytes(StandardCharsets.UTF_8).length > kanaTemp.length() ||
-                        kanaTemp.matches("[ \\uFF61-\\uFF9F]+"))) {
+                        Utility.PATTERN_HALFWIDTH_KATAKANA.matcher(kanaTemp).matches())) {
             skipJapanize = true;
         }
 

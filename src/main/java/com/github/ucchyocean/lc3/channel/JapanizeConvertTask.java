@@ -25,7 +25,7 @@ import com.github.ucchyocean.lc3.util.Utility;
  */
 public class JapanizeConvertTask {
 
-    private static final String REGEX_URL = "https?://[\\w/:%#\\$&\\?\\(\\)~\\.=\\+\\-]+";
+    private static final String REGEX_URL = "https?://[\\w/:%#$&?()~.=+\\-]+";
 
     private String org;
     private JapanizeType type;
@@ -62,8 +62,8 @@ public class JapanizeConvertTask {
     public boolean runSync() {
 
         // 変換対象外のキーワード
-        HashMap<String, String> keywordMap = new HashMap<String, String>();
-        ArrayList<String> keywords = new ArrayList<String>();
+        HashMap<String, String> keywordMap = new HashMap<>();
+        ArrayList<String> keywords = new ArrayList<>();
         if ( LunaChat.getConfig().isJapanizeIgnorePlayerName() ) {
             keywords.addAll(LunaChat.getPlugin().getOnlinePlayerNames());
         }
@@ -79,7 +79,7 @@ public class JapanizeConvertTask {
         for ( String keyword : keywords ) {
             if ( keywordLocked.contains(keyword) ) {
                 index++;
-                String key = "＜" + makeMultibytesDigit(index) + "＞";
+                String key = "＜" + makeMultibyteDigit(index) + "＞";
                 keywordLocked = keywordLocked.replace(keyword, key);
                 keywordMap.put(key, keyword);
             }
@@ -87,7 +87,7 @@ public class JapanizeConvertTask {
         for ( String dickey : dictionary.keySet() ) {
             if ( keywordLocked.contains(dickey) ) {
                 index++;
-                String key = "＜" + makeMultibytesDigit(index) + "＞";
+                String key = "＜" + makeMultibyteDigit(index) + "＞";
                 keywordLocked = keywordLocked.replace(dickey, key);
                 keywordMap.put(key, dictionary.get(dickey));
             }
@@ -144,7 +144,7 @@ public class JapanizeConvertTask {
      * @param digit
      * @return
      */
-    private String makeMultibytesDigit(int digit) {
+    private String makeMultibyteDigit(int digit) {
 
         String half = Integer.toString(digit);
         StringBuilder result = new StringBuilder();
