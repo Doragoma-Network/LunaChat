@@ -10,6 +10,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -67,7 +69,7 @@ public class BukkitChatMessage {
             out.writeUTF(message);
             return baos.toByteArray();
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger("LunaChat").log(Level.SEVERE, "Failed to serialize chat message", e);
         }
         return new byte[0];
     }
@@ -90,7 +92,7 @@ public class BukkitChatMessage {
             String message = in.readUTF();
             return new BukkitChatMessage(member, message);
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger("LunaChat").log(Level.SEVERE, "Failed to deserialize chat message", e);
         }
         return null;
     }

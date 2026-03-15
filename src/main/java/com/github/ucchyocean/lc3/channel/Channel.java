@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -1211,7 +1212,7 @@ public abstract class Channel {
             conf.save(file);
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger("LunaChat").log(Level.SEVERE, "Failed to save channel: " + name, e);
             return false;
         }
     }

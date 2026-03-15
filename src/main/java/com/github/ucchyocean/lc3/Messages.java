@@ -7,6 +7,8 @@ package com.github.ucchyocean.lc3;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
@@ -64,7 +66,7 @@ public class Messages {
                 defaultMessages = YamlConfig.load(jarFile.getInputStream(zipEntry));
 
             } catch (IOException e) {
-                e.printStackTrace();
+                Logger.getLogger("LunaChat").log(Level.WARNING, "Failed to load messages", e);
             }
         }
 

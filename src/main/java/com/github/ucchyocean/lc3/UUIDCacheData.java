@@ -7,6 +7,8 @@ package com.github.ucchyocean.lc3;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -23,7 +25,7 @@ public class UUIDCacheData {
     // キャッシュデータ key=UUID文字列、value=プレイヤー名
     private YamlConfig cache;
 
-    private File dataFolder;
+    private final File dataFolder;
 
     /**
      * コンストラクタ
@@ -46,7 +48,7 @@ public class UUIDCacheData {
             try {
                 cache.save(file);
             } catch (IOException e) {
-                e.printStackTrace();
+                Logger.getLogger("LunaChat").log(Level.SEVERE, "Failed to save UUID cache", e);
             }
             return;
         }
@@ -61,7 +63,7 @@ public class UUIDCacheData {
         try {
             cache.save(file);
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger("LunaChat").log(Level.SEVERE, "Failed to save UUID cache", e);
         }
     }
 

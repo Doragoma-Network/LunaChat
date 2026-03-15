@@ -9,6 +9,7 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.util.Set;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.github.ucchyocean.lc3.channel.ChannelManager;
 
@@ -48,7 +49,7 @@ public class LunaChatStandalone implements PluginInterface {
             return new File(LunaChatStandalone.class
                     .getProtectionDomain().getCodeSource().getLocation().toURI());
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            Logger.getLogger("LunaChat").log(Level.SEVERE, "Failed to get plugin jar file", e);
             return null;
         }
     }

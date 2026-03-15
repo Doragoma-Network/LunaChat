@@ -19,6 +19,9 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.github.ucchyocean.lc3.util.Utility;
 
 /**
@@ -75,7 +78,7 @@ public class LunaChatLogger {
                     String str = lformat.format(new Date()) + "," + msg + "," + player;
                     writer.write(str + "\r\n");
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Logger.getLogger("LunaChat").log(Level.SEVERE, "Failed to write log", e);
                 }
             }
         });
@@ -154,7 +157,7 @@ public class LunaChatLogger {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger("LunaChat").log(Level.WARNING, "Failed to read log file", e);
         }
 
         return data;
@@ -183,7 +186,7 @@ public class LunaChatLogger {
                 return null;
             }
         } catch (ParseException e) {
-            e.printStackTrace();
+            Logger.getLogger("LunaChat").log(Level.WARNING, "Failed to parse log date: " + date, e);
             return null;
         }
 

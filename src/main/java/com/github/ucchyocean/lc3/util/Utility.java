@@ -15,6 +15,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.Locale;
 import java.util.jar.JarFile;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 
 import com.github.ucchyocean.lc3.LunaChat;
@@ -48,7 +50,7 @@ public class Utility {
             try {
                 Files.copy(file, targetFile);
             } catch (IOException e) {
-                e.printStackTrace();
+                Logger.getLogger("LunaChat").log(Level.WARNING, "Failed to copy resource file", e);
             }
 
         } else {
@@ -80,7 +82,7 @@ public class Utility {
                     }
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                Logger.getLogger("LunaChat").log(Level.WARNING, "Failed to copy resource file", e);
             }
         }
     }

@@ -7,6 +7,8 @@ package com.github.ucchyocean.lc3.channel;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -164,7 +166,7 @@ public class ChannelManager implements LunaChatAPI {
             config.save(fileDefaults);
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger("LunaChat").log(Level.SEVERE, "Failed to save config", e);
             return false;
         }
     }
@@ -183,7 +185,7 @@ public class ChannelManager implements LunaChatAPI {
             config.save(fileTemplates);
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger("LunaChat").log(Level.SEVERE, "Failed to save config", e);
             return false;
         }
     }
@@ -202,7 +204,7 @@ public class ChannelManager implements LunaChatAPI {
             config.save(fileJapanize);
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger("LunaChat").log(Level.SEVERE, "Failed to save config", e);
             return false;
         }
     }
@@ -221,7 +223,7 @@ public class ChannelManager implements LunaChatAPI {
             config.save(fileDictionary);
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger("LunaChat").log(Level.SEVERE, "Failed to save config", e);
             return false;
         }
     }
@@ -240,7 +242,7 @@ public class ChannelManager implements LunaChatAPI {
             config.save(fileHidelist);
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger("LunaChat").log(Level.SEVERE, "Failed to save config", e);
             return false;
         }
     }
@@ -652,14 +654,14 @@ public class ChannelManager implements LunaChatAPI {
 //        try {
 //            file.createNewFile();
 //        } catch (IOException e) {
-//            e.printStackTrace();
+//            Logger.getLogger("LunaChat").log(Level.SEVERE, "Failed to save config", e);
 //        }
 
         YamlConfig config = new YamlConfig();
         try {
             config.save(file);
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger("LunaChat").log(Level.SEVERE, "Failed to save config", e);
         }
     }
 }
