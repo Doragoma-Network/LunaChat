@@ -56,7 +56,7 @@ public class BukkitChannel extends Channel {
 
         LunaChatConfig config = LunaChat.getConfig();
 
-        String originalMessage = new String(message);
+        String originalMessage = message;
 
         // 受信者を設定する
         List<ChannelMember> recipients = new ArrayList<ChannelMember>();
