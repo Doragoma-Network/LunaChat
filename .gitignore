@@ -2,6 +2,7 @@
 /.classpath
 /.project
 /target
+
 #IntelliJ
 .idea/
 *.iml
