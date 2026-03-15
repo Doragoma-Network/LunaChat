@@ -235,6 +235,6 @@ public class ChannelPlayerUUID extends ChannelPlayer {
      */
     @Override
     public String toString() {
-        return "$" + id.toString();
+        return "$" + id;
     }
 }

@@ -287,7 +287,7 @@ public class ChannelMemberPlayer extends ChannelMemberBukkit {
      */
     @Override
     public String toString() {
-        return "$" + id.toString();
+        return "$" + id;
     }
 
     public static ChannelMemberPlayer getChannelMember(String nameOrUuid) {

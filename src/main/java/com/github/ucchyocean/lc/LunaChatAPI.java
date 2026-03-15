@@ -29,14 +29,14 @@ public interface LunaChatAPI {
      * @return 存在するかどうか
      * @deprecated Legacy Version
      */
-    public boolean isExistChannel(String channelName);
+    boolean isExistChannel(String channelName);
 
     /**
      * 全てのチャンネルを返す
      * @return 全てのチャンネル
      * @deprecated Legacy Version
      */
-    public Collection<Channel> getChannels();
+    Collection<Channel> getChannels();
 
     /**
      * プレイヤーが参加しているチャンネルを返す
@@ -44,7 +44,7 @@ public interface LunaChatAPI {
      * @return チャンネル
      * @deprecated Legacy Version
      */
-    public Collection<Channel> getChannelsByPlayer(String playerName);
+    Collection<Channel> getChannelsByPlayer(String playerName);
 
     /**
      * プレイヤーが参加しているデフォルトのチャンネルを返す
@@ -52,7 +52,7 @@ public interface LunaChatAPI {
      * @return チャンネル
      * @deprecated Legacy Version
      */
-    public Channel getDefaultChannel(String playerName);
+    Channel getDefaultChannel(String playerName);
 
     /**
      * プレイヤーのデフォルトチャンネルを設定する
@@ -60,14 +60,14 @@ public interface LunaChatAPI {
      * @param channelName チャンネル名
      * @deprecated Legacy Version
      */
-    public void setDefaultChannel(String playerName, String channelName);
+    void setDefaultChannel(String playerName, String channelName);
 
     /**
      * 指定した名前のプレイヤーに設定されている、デフォルトチャンネルを削除する
      * @param playerName プレイヤー名
      * @deprecated Legacy Version
      */
-    public void removeDefaultChannel(String playerName);
+    void removeDefaultChannel(String playerName);
 
     /**
      * チャンネルを取得する
@@ -75,7 +75,7 @@ public interface LunaChatAPI {
      * @return チャンネル
      * @deprecated Legacy Version
      */
-    public Channel getChannel(String channelName);
+    Channel getChannel(String channelName);
 
     /**
      * 新しいチャンネルを作成する
@@ -83,7 +83,7 @@ public interface LunaChatAPI {
      * @return 作成されたチャンネル
      * @deprecated Legacy Version
      */
-    public Channel createChannel(String channelName);
+    Channel createChannel(String channelName);
 
     /**
      * 新しいチャンネルを作成する
@@ -92,7 +92,7 @@ public interface LunaChatAPI {
      * @return 作成されたチャンネル
      * @deprecated Legacy Version
      */
-    public Channel createChannel(String channelName, CommandSender sender);
+    Channel createChannel(String channelName, CommandSender sender);
 
     /**
      * チャンネルを削除する
@@ -100,7 +100,7 @@ public interface LunaChatAPI {
      * @return 削除したかどうか
      * @deprecated Legacy Version
      */
-    public boolean removeChannel(String channelName);
+    boolean removeChannel(String channelName);
 
     /**
      * チャンネルを削除する
@@ -109,7 +109,7 @@ public interface LunaChatAPI {
      * @return 削除したかどうか
      * @deprecated Legacy Version
      */
-    public boolean removeChannel(String channelName, CommandSender sender);
+    boolean removeChannel(String channelName, CommandSender sender);
 
     /**
      * テンプレートを取得する
@@ -117,7 +117,7 @@ public interface LunaChatAPI {
      * @return テンプレート
      * @deprecated Legacy Version
      */
-    public String getTemplate(String id);
+    String getTemplate(String id);
 
     /**
      * テンプレートを登録する
@@ -125,21 +125,21 @@ public interface LunaChatAPI {
      * @param template テンプレート
      * @deprecated Legacy Version
      */
-    public void setTemplate(String id, String template);
+    void setTemplate(String id, String template);
 
     /**
      * テンプレートを削除する
      * @param id テンプレートID
      * @deprecated Legacy Version
      */
-    public void removeTemplate(String id);
+    void removeTemplate(String id);
 
     /**
      * 辞書データを全て取得する
      * @return 辞書データ
      * @deprecated Legacy Version
      */
-    public HashMap<String, String> getAllDictionary();
+    HashMap<String, String> getAllDictionary();
 
     /**
      * 新しい辞書データを追加する
@@ -147,14 +147,14 @@ public interface LunaChatAPI {
      * @param value 値
      * @deprecated Legacy Version
      */
-    public void setDictionary(String key, String value);
+    void setDictionary(String key, String value);
 
     /**
      * 指定したキーの辞書データを削除する
      * @param key キー
      * @deprecated Legacy Version
      */
-    public void removeDictionary(String key);
+    void removeDictionary(String key);
 
     /**
      * 該当のプレイヤーに関連するhidelistを取得する。
@@ -162,7 +162,7 @@ public interface LunaChatAPI {
      * @return 指定されたプレイヤーをhideしているプレイヤー(非null)
      * @deprecated Legacy Version
      */
-    public List<ChannelPlayer> getHidelist(ChannelPlayer key);
+    List<ChannelPlayer> getHidelist(ChannelPlayer key);
 
     /**
      * 該当のプレイヤーがhideしているプレイヤーのリストを返す。
@@ -170,7 +170,7 @@ public interface LunaChatAPI {
      * @return 指定したプレイヤーがhideしているプレイヤーのリスト
      * @deprecated Legacy Version
      */
-    public ArrayList<ChannelPlayer> getHideinfo(ChannelPlayer player);
+    ArrayList<ChannelPlayer> getHideinfo(ChannelPlayer player);
 
     /**
      * 指定されたプレイヤーが、指定されたプレイヤーをhideするように設定する。
@@ -178,7 +178,7 @@ public interface LunaChatAPI {
      * @param hided hideされる側のプレイヤー
      * @deprecated Legacy Version
      */
-    public void addHidelist(ChannelPlayer player, ChannelPlayer hided);
+    void addHidelist(ChannelPlayer player, ChannelPlayer hided);
 
     /**
      * 指定されたプレイヤーが、指定されたプレイヤーのhideを解除するように設定する。
@@ -186,7 +186,7 @@ public interface LunaChatAPI {
      * @param hided hideされていた側のプレイヤー
      * @deprecated Legacy Version
      */
-    public void removeHidelist(ChannelPlayer player, ChannelPlayer hided);
+    void removeHidelist(ChannelPlayer player, ChannelPlayer hided);
 
     /**
      * Japanize変換を行う
@@ -195,7 +195,7 @@ public interface LunaChatAPI {
      * @return 変換後のメッセージ、ただしイベントでキャンセルされた場合はnullが返されるので注意
      * @deprecated Legacy Version
      */
-    public String japanize(String message, JapanizeType type);
+    String japanize(String message, JapanizeType type);
 
     /**
      * 該当プレイヤーのJapanize変換をオン/オフする
@@ -203,7 +203,7 @@ public interface LunaChatAPI {
      * @param doJapanize Japanize変換するかどうか
      * @deprecated Legacy Version
      */
-    public void setPlayersJapanize(String playerName, boolean doJapanize);
+    void setPlayersJapanize(String playerName, boolean doJapanize);
 
     /**
      * プレイヤーのJapanize設定を返す
@@ -211,5 +211,5 @@ public interface LunaChatAPI {
      * @return Japanize設定
      * @deprecated Legacy Version
      */
-    public boolean isPlayerJapanize(String playerName);
+    boolean isPlayerJapanize(String playerName);
 }

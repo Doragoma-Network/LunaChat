@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.concurrent.Callable;
 import java.util.logging.Level;
 
 import org.bstats.bukkit.Metrics;
@@ -36,6 +35,7 @@ import com.github.ucchyocean.lc3.command.LunaChatJapanizeCommand;
 import com.github.ucchyocean.lc3.command.LunaChatMessageCommand;
 import com.github.ucchyocean.lc3.command.LunaChatReplyCommand;
 import com.github.ucchyocean.lc3.member.ChannelMember;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * LunaChatのBukkit実装
@@ -74,15 +74,13 @@ public class LunaChatBukkit extends JavaPlugin implements PluginInterface {
         // Metrics
         Metrics metrics = new Metrics(this, 7936);
         metrics.addCustomChart(new DrilldownPie(
-                "minecraft_server_version", new Callable<Map<String, Map<String, Integer>>>() {
-            public Map<String, Map<String, Integer>> call() throws Exception {
-                Map<String, Map<String, Integer>> map = new HashMap<>();
-                Map<String, Integer> sub = new HashMap<>();
-                sub.put(Bukkit.getVersion(), 1);
-                map.put(Bukkit.getName(), sub);
-                return map;
-            }
-        }));
+                "minecraft_server_version", () -> {
+                    Map<String, Map<String, Integer>> map = new HashMap<>();
+                    Map<String, Integer> sub = new HashMap<>();
+                    sub.put(Bukkit.getVersion(), 1);
+                    map.put(Bukkit.getName(), sub);
+                    return map;
+                }));
 
         // 変数などの初期化
         config = new LunaChatConfig(getDataFolder(), getFile());
@@ -161,19 +159,16 @@ public class LunaChatBukkit extends JavaPlugin implements PluginInterface {
      */
     @Override
     public boolean onCommand(
-            CommandSender sender, Command command, String label, String[] args) {
+            @NotNull CommandSender sender, Command command, @NotNull String label, String[] args) {
 
-        if ( command.getName().equals("lunachat") ) {
-            return lunachatCommand.execute(ChannelMember.getChannelMember(sender), label, args);
-        } else if ( command.getName().equals("tell") ) {
-            return messageCommand.execute(ChannelMember.getChannelMember(sender), label, args);
-        } else if ( command.getName().equals("reply") ) {
-            return replyCommand.execute(ChannelMember.getChannelMember(sender), label, args);
-        } else if ( command.getName().equals("japanize") ) {
-            return lcjapanizeCommand.execute(ChannelMember.getChannelMember(sender), label, args);
-        }
+        return switch (command.getName()) {
+            case "lunachat" -> lunachatCommand.execute(ChannelMember.getChannelMember(sender), label, args);
+            case "tell" -> messageCommand.execute(ChannelMember.getChannelMember(sender), label, args);
+            case "reply" -> replyCommand.execute(ChannelMember.getChannelMember(sender), label, args);
+            case "japanize" -> lcjapanizeCommand.execute(ChannelMember.getChannelMember(sender), label, args);
+            default -> false;
+        };
 
-        return false;
     }
 
     /**
@@ -182,7 +177,7 @@ public class LunaChatBukkit extends JavaPlugin implements PluginInterface {
      */
     @Override
     public List<String> onTabComplete(
-            CommandSender sender, Command command, String label, String[] args) {
+            @NotNull CommandSender sender, Command command, @NotNull String label, String[] args) {
 
         List<String> completeList = null;
         if ( command.getName().equals("lunachat") ) {

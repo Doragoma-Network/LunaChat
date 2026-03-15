@@ -215,7 +215,7 @@ public class ChannelMemberProxiedPlayer extends ChannelMemberBungee {
      */
     @Override
     public String toString() {
-        return "$" + id.toString();
+        return "$" + id;
     }
 
     /**

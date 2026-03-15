@@ -131,9 +131,9 @@ public class MessageParser {
                             "        kr.replace(\"%%%s%%\", %s.toString());", keyword, keyword));
                 }
                 if ( key.startsWith("errmsg") ) {
-                    result.add("        return Utility.replaceColorCode(resources.getString(\"errorPrefix\", \"\") + kr.toString());");
+                    result.add("        return Utility.replaceColorCode(resources.getString(\"errorPrefix\", \"\") + kr);");
                 } else if ( key.startsWith("cmdmsg") ) {
-                    result.add("        return Utility.replaceColorCode(resources.getString(\"infoPrefix\", \"\") + kr.toString());");
+                    result.add("        return Utility.replaceColorCode(resources.getString(\"infoPrefix\", \"\") + kr);");
                 } else {
                     result.add("        return Utility.replaceColorCode(kr.toString());");
                 }

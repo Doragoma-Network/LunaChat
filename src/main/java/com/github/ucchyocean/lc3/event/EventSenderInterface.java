@@ -25,7 +25,7 @@ public interface EventSenderInterface {
      * @param messageFormat 発言に適用されるフォーマット
      * @return イベント実行結果
      */
-    public EventResult sendLunaChatChannelChatEvent(
+    EventResult sendLunaChatChannelChatEvent(
             String channelName, ChannelMember member,
             String originalMessage, String ngMaskedMessage,
             String messageFormat);
@@ -36,7 +36,7 @@ public interface EventSenderInterface {
      * @param member 作成した人
      * @return イベント実行結果
      */
-    public EventResult sendLunaChatChannelCreateEvent(
+    EventResult sendLunaChatChannelCreateEvent(
             String channelName, ChannelMember member);
 
     /**
@@ -46,7 +46,7 @@ public interface EventSenderInterface {
      * @param after 変更後のメンバー
      * @return イベント実行結果
      */
-    public EventResult sendLunaChatChannelMemberChangedEvent(
+    EventResult sendLunaChatChannelMemberChangedEvent(
             String channelName, List<ChannelMember> before,
             List<ChannelMember> after);
 
@@ -60,7 +60,7 @@ public interface EventSenderInterface {
      * @param originalMessage 発言内容（元々の内容）
      * @return イベント実行結果
      */
-    public EventResult sendLunaChatChannelMessageEvent(
+    EventResult sendLunaChatChannelMessageEvent(
             String channelName, ChannelMember member, String message,
             List<ChannelMember> recipients, String displayName,
             String originalMessage);
@@ -72,7 +72,7 @@ public interface EventSenderInterface {
      * @param options 変更後のオプション
      * @return イベント実行結果
      */
-    public EventResult sendLunaChatChannelOptionChangedEvent(
+    EventResult sendLunaChatChannelOptionChangedEvent(
             String channelName, ChannelMember member,
             Map<String, String> options);
 
@@ -82,7 +82,7 @@ public interface EventSenderInterface {
      * @param member 削除を実行した人
      * @return イベント実行結果
      */
-    public EventResult sendLunaChatChannelRemoveEvent(
+    EventResult sendLunaChatChannelRemoveEvent(
             String channelName, ChannelMember member);
 
     /**
@@ -93,7 +93,7 @@ public interface EventSenderInterface {
      * @param japanized 変換後の文字列
      * @return イベント実行結果
      */
-    public EventResult sendLunaChatPostJapanizeEvent(
+    EventResult sendLunaChatPostJapanizeEvent(
             String channelName, ChannelMember member,
             String original, String japanized);
 
@@ -104,6 +104,6 @@ public interface EventSenderInterface {
      * @param message 発言内容
      * @return イベント実行結果
      */
-    public EventResult sendLunaChatPreChatEvent(
+    EventResult sendLunaChatPreChatEvent(
             String channelName, ChannelMember member, String message);
 }

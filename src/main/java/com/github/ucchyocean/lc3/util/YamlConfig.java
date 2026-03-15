@@ -5,29 +5,25 @@
  */
 package com.github.ucchyocean.lc3.util;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import org.jetbrains.annotations.NotNull;
+import org.yaml.snakeyaml.Yaml;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.jetbrains.annotations.NotNull;
-import org.yaml.snakeyaml.Yaml;
-
 /**
  * Yaml設定読み書きユーティリティクラス
+ *
  * @author ucchy
  */
 public class YamlConfig extends YamlSection {
 
     /**
      * InputStreamからYamlConfigをロードする
+     *
      * @param stream InputStream
      * @return ロードされたYamlConfig
      * @throws IOException InputStreamの入力がyamlとして解析できない場合など
@@ -35,13 +31,12 @@ public class YamlConfig extends YamlSection {
     public static YamlConfig load(InputStream stream) throws IOException {
 
         YamlConfig config = new YamlConfig();
-        if ( stream == null ) return config;
+        if (stream == null) return config;
 
         Yaml yaml = new Yaml();
 
-        @SuppressWarnings("unchecked")
         Map<String, Object> map = yaml.loadAs(stream, Map.class);
-        if ( map == null ) {
+        if (map == null) {
             throw new IOException("Cannot load stream as yaml.");
         }
 
@@ -51,6 +46,7 @@ public class YamlConfig extends YamlSection {
 
     /**
      * ReaderからYamlConfigをロードする
+     *
      * @param reader Reader
      * @return ロードされたYamlConfig
      * @throws IOException Readerの入力がyamlとして解析できない場合など
@@ -58,13 +54,12 @@ public class YamlConfig extends YamlSection {
     public static YamlConfig load(Reader reader) throws IOException {
 
         YamlConfig config = new YamlConfig();
-        if ( reader == null ) return config;
+        if (reader == null) return config;
 
         Yaml yaml = new Yaml();
 
-        @SuppressWarnings("unchecked")
         Map<String, Object> map = yaml.loadAs(reader, Map.class);
-        if ( map == null ) {
+        if (map == null) {
             throw new IOException("Cannot load reader as yaml.");
         }
 
@@ -74,16 +69,17 @@ public class YamlConfig extends YamlSection {
 
     /**
      * FileからYamlConfigをロードする
+     *
      * @param file File
      * @return ロードされたYamlConfig（ロードに失敗した場合は空のYamlConfigが返される）
      */
     public static @NotNull YamlConfig load(File file) {
 
         // 対象ファイルが存在しない場合やからっぽの場合は、からっぽのYamlConfigを返す
-        if ( !file.exists() || !file.isFile() || file.length() == 0 ) return new YamlConfig();
+        if (!file.exists() || !file.isFile() || file.length() == 0) return new YamlConfig();
 
         // 読み込む
-        try ( InputStreamReader reader = new InputStreamReader(new FileInputStream(file), "UTF-8") ) {
+        try (InputStreamReader reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)) {
             return load(reader);
         } catch (IOException e) {
             Logger.getLogger("LunaChat").log(Level.WARNING, "Failed to load YAML config: " + file.getName(), e);
@@ -95,6 +91,7 @@ public class YamlConfig extends YamlSection {
 
     /**
      * 保存する
+     *
      * @param file 保存先
      * @throws IOException 保存に失敗した場合など
      */

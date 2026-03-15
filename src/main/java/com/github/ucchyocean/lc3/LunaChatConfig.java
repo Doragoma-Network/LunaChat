@@ -209,13 +209,13 @@ public class LunaChatConfig {
         if ( enableChannelChat ) {
             forceJoinChannels = config.getStringList("forceJoinChannels");
         } else {
-            forceJoinChannels = new ArrayList<String>();
+            forceJoinChannels = new ArrayList<>();
         }
 
         if ( config.contains("formatConstraint") ) {
             formatConstraint = config.getStringList("formatConstraint");
         } else {
-            formatConstraint = new ArrayList<String>();
+            formatConstraint = new ArrayList<>();
             formatConstraint.add("%username");
             formatConstraint.add("%msg");
         }
@@ -242,7 +242,7 @@ public class LunaChatConfig {
         ngword = config.getStringList("ngword");
         ngwordAction = NGWordAction.fromID(config.getString("ngwordAction", "mask"));
 
-        ngwordCompiled = new ArrayList<Pattern>();
+        ngwordCompiled = new ArrayList<>();
         for ( String word : ngword ) {
             ngwordCompiled.add(Pattern.compile(word));
         }
@@ -273,7 +273,7 @@ public class LunaChatConfig {
         bungeePassThroughMode = config.getBoolean("bungeePassThroughMode", false);
 
         // globalチャンネルが、使用可能なチャンネル名かどうかを調べる
-        if ( globalChannel != null && !globalChannel.equals("") &&
+        if ( globalChannel != null && !globalChannel.isEmpty() &&
                 !globalChannel.matches("[0-9a-zA-Z\\-_]{1,20}") ) {
 
             // コンソールに警告を表示する
